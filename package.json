@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install",
+    "test": "npm run test-node && npm run test-browser",
+    "test-node": "mocha -R spec ./test/node/index.js",
+    "test-debug": "mocha-phantomjs ./test/browser/index.html"
   },
   "dependencies": {
     "express": "~4.2.0",
