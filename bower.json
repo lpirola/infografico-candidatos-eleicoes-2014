@@ -19,6 +19,7 @@
   "dependencies": {
     "chartjs": "~0.2.0",
     "requirejs": "~2.1.14",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "c3": "~0.3.0"
   }
 }

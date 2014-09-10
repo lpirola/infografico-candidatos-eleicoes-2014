@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
-  canvas#myChart(width='400', height='400')
+  p
+    !=subtitle
+  #chart(width='400', height='400')
 

@@ -7,7 +7,9 @@ requirejs.config({
     baseUrl: 'javascripts/lib',
     paths: {
         app: 'app',
-        lib: '../../bower_components'
+        lib: '../../bower_components',
+        d3: '../../bower_components/d3/d3',
+        c3: '../../bower_components/c3/c3'
     }
 });
 
