@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var express = require('express');
 var router = express.Router();
 var Candidato = require('../model/Candidato.js')
@@ -7,8 +8,18 @@ var async = require('async');
 var filter = {
   run : function (where, cb) {
     Candidato.where(where).count(function (e, c) {
-      cb(null, c);
+      var data = {};
+      data[_.values(where)[0]] = c;
+      cb(null, data);
     });
+  },
+
+  after : function (results) {
+    var data = {}
+    _.each(results, function (v,k) {
+      _.extend(data, v);
+    });
+    return data;
   }
 }
 
@@ -35,7 +46,8 @@ router.get('/data/sexo', function (req, res) {
           filter.run({ 'sexo': 'MASCULINO' }, cb);
        }
     ], function(err,results){
-      res.json(results);
+      var data = filter.after(results);
+      res.json(data);
     });
 });
 
@@ -57,7 +69,8 @@ router.get('/data/estado_civil', function (req, res) {
           filter.run({ 'estado_civil': 'Viúvo(a)' }, cb);
        }
     ], function(err,results){
-      res.json(results);
+      var data = filter.after(results);
+      res.json(data);
     });
 });
 
