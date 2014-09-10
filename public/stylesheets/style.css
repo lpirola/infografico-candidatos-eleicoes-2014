@@ -6,3 +6,9 @@ body {
 a {
   color: #00B7FF;
 }
+
+.chart {
+    float: left;
+    width: 40%;
+    margin: 5%;
+}

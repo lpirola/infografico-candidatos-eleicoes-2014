@@ -3,6 +3,15 @@ var router = express.Router();
 var Candidato = require('../model/Candidato.js')
 var async = require('async');
 
+
+var filter = {
+  run : function (where, cb) {
+    Candidato.where(where).count(function (e, c) {
+      cb(null, c);
+    });
+  }
+}
+
 /* GET home page. */
 router.get('/', function(req, res) {
     res.render('index', {
@@ -18,28 +27,38 @@ router.get('/', function(req, res) {
 
 
 router.get('/data/sexo', function (req, res) {
-    var data = {
-      masculino : 0,
-      feminino : 0
-    };
     async.series([
        function(cb){
-          Candidato.where({ 'sexo': 'FEMININO' }).count(function (e, c) {
-            data.feminino = c;
-            cb(null, c);
-          });
+          filter.run({ 'sexo': 'FEMININO' }, cb);
        },
        function(cb){
-          Candidato.where({ 'sexo': 'MASCULINO' }).count(function (e, c) {
-            data.masculino = c;
-            cb(null, c);
-          });
+          filter.run({ 'sexo': 'MASCULINO' }, cb);
        }
     ], function(err,results){
-      res.json(data);
+      res.json(results);
     });
+});
 
-
+router.get('/data/estado_civil', function (req, res) {
+    async.series([
+       function(cb){
+          filter.run({ 'estado_civil': 'Divorciado(a)' }, cb);
+       },
+       function(cb){
+          filter.run({ 'estado_civil': 'Casado(a)' }, cb);
+       },
+       function(cb){
+          filter.run({ 'estado_civil': 'Solteiro(a)' }, cb);
+       },
+       function(cb){
+          filter.run({ 'estado_civil': 'Separado(a) judicialmente' }, cb);
+       },
+       function(cb){
+          filter.run({ 'estado_civil': 'Viúvo(a)' }, cb);
+       }
+    ], function(err,results){
+      res.json(results);
+    });
 });
 
 module.exports = router;
